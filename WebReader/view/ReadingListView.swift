@@ -16,9 +16,14 @@ struct ReadingListView: View {
     
     var body: some View {
 //        Text("Hello, World!")
-        List(readingViewModel.exampleList, selection: $selection) { item in
+        List($readingViewModel.exampleList, editActions: [.move, .delete], selection: $selection) { $item in
             ReadingItemRow(readingItem: item)
                 .tag(item)
+                .swipeActions(edge: .leading) {
+                    Button("E") {
+                        item.isRead.toggle()
+                    }
+                }
         }
         .toolbar{
             Button {
@@ -26,10 +31,11 @@ struct ReadingListView: View {
             } label: {
                 Label("Add to Reading List", systemImage: "plus")
             }
+            EditButton()
 
         }
         .sheet(isPresented: $isAddNewReadingItemViewPresented) {
-            ReadingItemEditorView()
+            ReadingItemEditorView(readingViewModel: readingViewModel)
         }
     }
 

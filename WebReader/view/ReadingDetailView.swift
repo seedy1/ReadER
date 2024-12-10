@@ -10,7 +10,7 @@ import SwiftUI
 struct ReadingDetailView: View {
     let reading: ReadingItem
     var body: some View {
-        Text(reading.url.absoluteString)
+        WebView(url: reading.url)
     }
 }
 
