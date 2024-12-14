@@ -16,7 +16,7 @@ struct ContentView: View {
             ReadingListView(readingViewModel: readingVioewModel, selection: $selection)
         } detail: {
             if let selection {
-                ReadingDetailView(reading: selection)
+                ReadingDetailView(readingViewModel: readingVioewModel, reading: selection)
             }else{
                 // Ipad only
                 ContentUnavailableView("Select an item", systemImage: "book")

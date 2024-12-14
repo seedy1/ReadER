@@ -14,10 +14,16 @@ class ReadingDataViewModel{
     
     func addNewReadingItem(title: String, urlString: String){
         guard let url = URL(string: urlString) else { return }
+        addNewReadingItem(title: title, url: url)
+    }
+    
+    func addNewReadingItem(title: String, url: URL){
+        
         let readingItem = ReadingItem(title: title, url: url)
         exampleList.append(readingItem)
         saveData()
     }
+
     
     func saveData(){
         do{
