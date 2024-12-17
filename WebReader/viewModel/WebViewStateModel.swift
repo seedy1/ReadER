@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import WebKit
 
 @Observable
 class WebViewStateModel{
@@ -15,6 +16,8 @@ class WebViewStateModel{
     var error: Error?
     var cureentURL: URL? = nil
     var currentTitle: String? = nil
+    weak var webView: WKWebView?
+    var successSave: URL? = nil
     
     init(url: URL? = nil) {
         self.url = url
@@ -34,5 +37,32 @@ class WebViewStateModel{
     func update(currentURL: URL?, currentTitle: String?){
         self.cureentURL = currentURL
         self.currentTitle = currentTitle
+    }
+    
+    // creates pdf from current web view page
+    func saveToPDF(){
+        guard let webView else { return }
+        
+        webView.createPDF { result in
+            switch result {
+            case .success(let data):
+                print("PDF saved to \(data)")
+                self.saveToPDF()
+            case .failure(let error):
+                print("Error saving PDF: \(error)")
+            }
+        }
+    }
+    
+    func saveToDisk(_ data: Data){
+        let documentURL = URL.documentsDirectory
+        let title = currentTitle ?? "untitled"
+        let fileUrl = documentURL.appendingPathComponent("\(title).pdf")
+        do{
+            try data.write(to: fileUrl)
+            self.cureentURL = fileUrl
+        }catch{
+            
+        }
     }
 }

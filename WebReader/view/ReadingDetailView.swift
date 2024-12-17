@@ -31,16 +31,27 @@ struct ReadingDetailView: View {
 
         }
         .toolbar {
-            if let newURL = webViewState.cureentURL, webViewState.url != newURL{
-                Button("Add page to reading list"){
-                    readingViewModel.addNewReadingItem(title: webViewState.currentTitle ?? "titre", url: newURL)
+            
+            Menu("More", systemImage: "ellipsis.circle.fill") {
+                if let newURL = webViewState.cureentURL, webViewState.url != newURL{
+                    Button("Add page to reading list"){
+                        readingViewModel.addNewReadingItem(title: webViewState.currentTitle ?? "titre", url: newURL)
+                    }
                 }
-//            }
+                
+                Button("Save as PDF"){
+                    webViewState.saveToPDF()
+                }
+            }
+            
+            
         }
     }
 }
 
 #Preview {
-    ReadingDetailView(readingViewModel: ReadingDataViewModel(), reading: ReadingItem.example )
+    NavigationStack{
+        ReadingDetailView(readingViewModel: ReadingDataViewModel(), reading: ReadingItem.example )
+    }
 }
         
