@@ -60,7 +60,7 @@ class WebViewStateModel{
         let fileUrl = documentURL.appendingPathComponent("\(title).pdf")
         do{
             try data.write(to: fileUrl)
-            self.cureentURL = fileUrl
+            self.successSave = fileUrl
         }catch{
             
         }

@@ -20,6 +20,18 @@ struct ReadingDetailView: View {
             }else if let error = webViewState.error{
                 Text(error.localizedDescription)
             }
+            
+            if let url = webViewState.successSave{
+                SuccessSavePDFView(url: url)
+                    .transition(.move(edge: .bottom))
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation(.bouncy(duration: 2)){
+                                webViewState.successSave = nil
+                            }
+                        }
+                    }
+            }
         }
         .onChange(of: reading) { oldValue, newValue in
 //            webViewState.url = newValue.url

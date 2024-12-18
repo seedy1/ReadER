@@ -37,8 +37,17 @@ class ReadingDataViewModel{
     }
 
     func fileURL() -> URL{
-        let directory = URL.applicationDirectory
+//        let directory = URL.applicationDirectory
+        let directory = supportDirectory() ?? URL.documentsDirectory
         return directory.appendingPathComponent("readingList.josn")
+    }
+    
+    func supportDirectory() -> URL?{
+        do{
+            return try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        }catch{
+            return nil
+        }
     }
     
     func loadData(){
