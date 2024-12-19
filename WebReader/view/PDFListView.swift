@@ -15,6 +15,7 @@ struct PDFListView: View {
             ForEach(pdfModel.pdfFiles, id: \.self) { file in
                 Text(file.lastPathComponent)
                     .lineLimit(1)
+                    .tag(ContentView.NavSelection.pdf(url: file))
             }
         }
     }

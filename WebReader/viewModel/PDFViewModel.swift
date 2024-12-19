@@ -22,8 +22,10 @@ class PDFViewModel{
         let directory = URL.documentsDirectory
         do{
             let fileUrls = try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
-            // check for pdfs only
-        }catch{}
+            self.pdfFiles = fileUrls.filter{$0.pathExtension == "pdf"} // check for pdfs only
+        }catch{
+            print("cannot load pdf files")
+        }
     }
     
     func deletePDFFile(_ fileURL: URL){

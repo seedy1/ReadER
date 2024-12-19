@@ -7,35 +7,27 @@
 
 import SwiftUI
 
-struct ReadingListView: View {
+struct ReadingSectionView: View {
     
 //    let exampleList: [ReadingItem]
     @Bindable var readingViewModel: ReadingDataViewModel
-    @Binding var selection: ReadingItem?
-    @State private var isAddNewReadingItemViewPresented: Bool = false
+//    @Binding var selection: ReadingItem?
+//    @State private var isAddNewReadingItemViewPresented: Bool = false
     
     var body: some View {
 //        Text("Hello, World!")
-        List($readingViewModel.exampleList, editActions: [.move, .delete], selection: $selection) { $item in
-            ReadingItemRow(readingItem: item)
-                .tag(item)
-                .swipeActions(edge: .leading) {
-                    Button("E") {
-                        item.isRead.toggle()
+        Section("Reading List") {
+            
+            
+            ForEach($readingViewModel.exampleList, editActions: [.move, .delete]) { $item in
+                ReadingItemRow(readingItem: item)
+                    .tag(ContentView.NavSelection.readingItem(reading: item))
+                    .swipeActions(edge: .leading) {
+                        Button("E") {
+                            item.isRead.toggle()
+                        }
                     }
-                }
-        }
-        .toolbar{
-            Button {
-                isAddNewReadingItemViewPresented.toggle()
-            } label: {
-                Label("Add to Reading List", systemImage: "plus")
             }
-            EditButton()
-
-        }
-        .sheet(isPresented: $isAddNewReadingItemViewPresented) {
-            ReadingItemEditorView(readingViewModel: readingViewModel)
         }
     }
 
@@ -62,6 +54,8 @@ fileprivate struct ReadingItemRow: View {
 #Preview {
     @State @Previewable var selection: ReadingItem?
     NavigationStack{
-        ReadingListView(readingViewModel: ReadingDataViewModel(), selection: $selection)
+        List{
+            ReadingSectionView(readingViewModel: ReadingDataViewModel())
+        }
     }
 }

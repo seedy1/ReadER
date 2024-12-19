@@ -62,7 +62,7 @@ class WebViewStateModel{
             try data.write(to: fileUrl)
             self.successSave = fileUrl
         }catch{
-            
+            print("saveToDisk: \(error)")
         }
     }
 }
